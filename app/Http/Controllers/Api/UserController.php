@@ -74,6 +74,9 @@ class UserController extends Controller
         $data = request()->all();
 
         $updatedPost=User::find($userId);
+        if (!$updatedPost) {
+            return "user doesn't exist";
+        }
         if (array_key_exists("email", $data)) {
             $updatedPost->email=$data['email'];
         }
