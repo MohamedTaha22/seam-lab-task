@@ -48,6 +48,9 @@ class Problem1Controller extends Controller
     {
         $num1=$request->num1;
         $num2=$request->num2;
+        if ($num2<$num1) {
+            return response()->json(['message' => "error in inputs "], 404);
+        }
         return response()
         ->json($this->problem_1($num1, $num2));
     }
