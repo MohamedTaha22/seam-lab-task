@@ -20,10 +20,10 @@ class UserController extends Controller
             if ($passwordCheck) {
                 return "Welcome $user[user_name]";
             } else {
-                return "Invalid password ";
+                return response()->json(['message' => "Invalid password "], 404);
             }
         } else {
-            return "Invalid user name ";
+            return response()->json(['message' => "Invalid user name "], 404);
         }
     }
 
@@ -43,7 +43,7 @@ class UserController extends Controller
             ->json($user);
             ;
         }
-        return "Not Found";
+        return response()->json(['message' => "User doesn't exist "], 404);
     }
 
     public function register(StoreUserRequest $request)
@@ -56,7 +56,7 @@ class UserController extends Controller
             'number' => $data['number'],
             'birthday' => $data['birthday'],
         ]);
-        return "done";
+        return response()->json(['message' => "User was created successfully "], 201);
     }
 
     public function destroy($userId)
@@ -64,9 +64,9 @@ class UserController extends Controller
         $deletedPost=User::find($userId);
         if ($deletedPost) {
             $deletedPost->delete();
-            return "deleted";
+            return response()->json(['message' => "User was deleted successfully "]);
         }
-        return "user doesn't exist";
+        return response()->json(['message' => "User doesn't exist "], 404);
     }
 
     public function update($userId, UpdateUserRequest $request)
@@ -75,7 +75,7 @@ class UserController extends Controller
 
         $updatedPost=User::find($userId);
         if (!$updatedPost) {
-            return "user doesn't exist";
+            return response()->json(['message' => "User doesn't exist "], 404);
         }
         if (array_key_exists("email", $data)) {
             $updatedPost->email=$data['email'];
