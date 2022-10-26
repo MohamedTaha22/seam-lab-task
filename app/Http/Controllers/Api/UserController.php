@@ -77,22 +77,10 @@ class UserController extends Controller
         if (!$updatedPost) {
             return response()->json(['message' => "User doesn't exist "], 404);
         }
-        if (array_key_exists("email", $data)) {
-            $updatedPost->email=$data['email'];
-        }
-        if (array_key_exists("user_name", $data)) {
-            $updatedPost->user_name=$data['user_name'];
-        }
-        if (array_key_exists("password", $data)) {
-            $updatedPost->password= Hash::make($data['password']);
-        }
-        if (array_key_exists("number", $data)) {
-            $updatedPost->number=$data['number'];
-        }
-        if (array_key_exists("birthday", $data)) {
-            $updatedPost->birthday=$data['birthday'];
+        foreach ($data as $user=>$value) {
+            $updatedPost->$user=$data[$user];
         }
         $updatedPost->save();
-        return "updated";
+        return response()->json(['message' => "User was updated successfully "], 201);
     }
 }
